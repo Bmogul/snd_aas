@@ -9,17 +9,13 @@ class NotFoundPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Stack(
       children: [
-        IconButton(onPressed: goBack, icon: Icon(Icons.arrow_back)),
         Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
-              SizedBox(height: 100),
               Icon(
                 Icons.error_outline,
                 size: 80,
@@ -30,6 +26,14 @@ class NotFoundPage extends StatelessWidget {
               SizedBox(height: 10),
               Text("Page Not Found", style: theme.textTheme.titleLarge),
             ],
+          ),
+        ),
+        Positioned(
+          top: 0,
+          left: 0,
+          child: IconButton(
+            onPressed: goBack,
+            icon: Icon(Icons.arrow_back),
           ),
         ),
       ],

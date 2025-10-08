@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:snd_aas/app.dart';
+import 'package:snd_aas/providers/theme_provider.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => ThemeProvider())],
+      child: SNDApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -40,21 +47,14 @@ class MyHomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Main title section with logo, app title and tagline
-            Image.asset('assets/logo.png', height: 250, fit: BoxFit.cover),
             SizedBox(height: 16),
             Text("SND Anti Aging System", style: titlestyle),
-            Text("Rejuvenate naturally, every day"),
 
             // Action center for creating account or registering a new product
             Expanded(
               child: Column(
                 children: [
-                  ElevatedButton(onPressed: () {}, child: Text("Login")),
 
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text("Register Product"),
-                  ),
 
                   Text('Let\'s begin your journey to radiant health'),
                 ],

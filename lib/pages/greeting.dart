@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:snd_aas/colors.dart' as SNDColors;
+import 'package:snd_aas/widgets/gradient_background.dart';
+import 'package:snd_aas/widgets/greeting_content.dart';
+import 'package:snd_aas/widgets/login_content.dart';
+import 'package:snd_aas/widgets/not_found_page.dart';
+
+enum ActivePageEnum { GREETING, LOGIN, REGISTER }
 
 class GreetingPage extends StatefulWidget {
   const GreetingPage({Key? key}) : super(key: key);
@@ -12,6 +17,8 @@ class GreetingPage extends StatefulWidget {
 
 class _GreetingPageState extends State<GreetingPage>
     with TickerProviderStateMixin {
+  ActivePageEnum activePage = ActivePageEnum.GREETING;
+
   @override
   void dispose() {
     _controller.dispose();
@@ -19,61 +26,97 @@ class _GreetingPageState extends State<GreetingPage>
   }
 
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 4),
+    duration: const Duration(seconds: 2),
     vsync: this,
-  )..repeat(reverse: true);
+    lowerBound: double.negativeInfinity,
+    upperBound: double.infinity,
+    value: 0.0,
+  );
 
-  late final Animation<AlignmentGeometry> _animation = Tween<AlignmentGeometry>(
-    begin: Alignment(-1, 0),
-    end: Alignment.bottomRight,
-  ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-
-  Widget _buildFloatingCircle(
-    double size,
-    Color color,
-    AlignmentGeometry alignment,
-  ) {
-    return Align(
-      alignment: alignment,
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: color.withOpacity(0.2), // translucent
-        ),
-      ),
+  void _playAnimationForward() {
+    final currentValue = _controller.value;
+    _controller.animateTo(
+      currentValue + 1.0,
+      duration: const Duration(seconds: 2),
     );
+    setState(() {
+      activePage = ActivePageEnum.LOGIN;
+    });
+
+    print("Curret Page: $activePage");
+  }
+
+  void _playAnimationReverse() {
+    final currentValue = _controller.value;
+    _controller.animateTo(
+      currentValue - 1.0,
+      duration: const Duration(seconds: 2),
+    );
+    setState(() {
+      activePage = ActivePageEnum.REGISTER;
+    });
+
+    print("Curret Page: $activePage");
+  }
+
+  void backToGreeting() {
+    setState(() {
+      activePage = ActivePageEnum.GREETING;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
+    Widget activeWidget;
 
-              Colors.white,
-              Color(0xFFd6e8b7),
-              Color(0xFFd3e8ac),
-              //SNDColors.kSNDYellowGreen, // deep blue
-            ],
+    switch (activePage) {
+      case ActivePageEnum.GREETING:
+        activeWidget = GreetingContent(
+          onLoginPressed: _playAnimationForward,
+          onRegisterPressed: _playAnimationReverse,
+        );
+        break;
+      case ActivePageEnum.LOGIN:
+        activeWidget = LoginContent(
+          onLoginPressed: _playAnimationForward,
+          onRegisterPressed: _playAnimationReverse,
+        );
+        break;
+      default:
+        activeWidget = NotFoundPage(goBack: backToGreeting);
+    }
+
+    Widget _buildFloatingCircle(
+      double size,
+      Color color,
+      AlignmentGeometry alignment,
+    ) {
+      return Align(
+        alignment: alignment,
+        child: Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: color.withValues(alpha: 0.2),
           ),
         ),
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: AnimatedBuilder(
-                animation: _controller,
-                builder: (context, child) {
-                  return Stack(
-                    children: [
+      );
+    }
 
+    final theme = Theme.of(context);
+    return Scaffold(
+      body: Stack(
+        children: [
+          GradientBackground(),
+          Positioned.fill(
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) {
+                return Transform.rotate(
+                  angle: _controller.value * 1 * 3.141592,
+                  child: Stack(
+                    children: [
                       _buildFloatingCircle(
                         75,
                         theme.colorScheme.tertiary,
@@ -95,63 +138,19 @@ class _GreetingPageState extends State<GreetingPage>
                         Alignment(3.0, -1.2),
                       ),
                     ],
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
-            SafeArea(
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  return Center(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            children: [
-                              Image.asset(
-                                'assets/logo.png',
-                                height: 80,
-                                fit: BoxFit.cover,
-                              ),
-                              SizedBox(height: 20),
-                              Text(
-                                "SND ",
-                                style: theme.textTheme.displayMedium,
-                              ),
-                              Text(
-                                "Anti-Aging System",
-                                style: theme.textTheme.titleMedium,
-                              ),
-                              SizedBox(height: size.height * .1),
-                              SizedBox(
-                                width: size.width * .5,
-
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  child: Text("Login"),
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              SizedBox(
-                                width: size.width * .5,
-                                child: OutlinedButton(
-                                  onPressed: () {},
-                                  child: Text("Register Product"),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
+          ),
+          SafeArea(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return activeWidget;
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

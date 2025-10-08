@@ -35,6 +35,8 @@ class _LoginContentState extends State<LoginContent> {
       // Handle login logic here
       print('Email: ${_emailController.text}');
       print('Password: ${_passwordController.text}');
+      // Navigate to onboarding after successful login
+      widget.onLoginPressed();
     }
   }
 

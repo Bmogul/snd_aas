@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class NotFoundPage extends StatelessWidget {
-  const NotFoundPage({Key? key, required this.goBack}) : super(key: key);
+class NotFoundContent extends StatelessWidget {
+  const NotFoundContent({Key? key, required this.goBack}) : super(key: key);
 
   final VoidCallback goBack;
 

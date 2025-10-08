@@ -41,6 +41,8 @@ class _RegisterContentState extends State<RegisterContent> {
       print('Email: ${_emailController.text}');
       print('Password: ${_passwordController.text}');
       print('Product Key: ${_productKeyController.text}');
+      // Navigate to onboarding after successful registration
+      widget.onGooglePressed(); // Reusing this callback to go to onboarding
     }
   }
 

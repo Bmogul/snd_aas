@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snd_aas/widgets/gradient_background.dart';
-import 'package:snd_aas/widgets/greeting_content.dart';
-import 'package:snd_aas/widgets/login_content.dart';
-import 'package:snd_aas/widgets/register_content.dart';
-import 'package:snd_aas/widgets/not_found_page.dart';
+import 'package:snd_aas/pages/greeting/greeting_widgets.dart';
 
 enum ActivePageEnum { GREETING, LOGIN, REGISTER }
 
@@ -99,6 +96,32 @@ class _GreetingPageState extends State<GreetingPage>
     });
   }
 
+  void goToOnboarding() {
+    // Determine scale based on previous page
+    double scaleBegin;
+    if (_previousPage == ActivePageEnum.LOGIN) {
+      // Standard zoom in from login
+      scaleBegin = 0.8;
+    } else if (_previousPage == ActivePageEnum.REGISTER) {
+      // 2x zoom in from register
+      scaleBegin = 0.6;
+    } else {
+      scaleBegin = 0.8;
+    }
+
+    // Navigate to onboarding page using named route
+    Navigator.of(context).pushNamed(
+      '/onboarding',
+      arguments: {
+        'scaleBegin': scaleBegin,
+        'onGetStarted': () {
+          print('Get started pressed');
+          // TODO: Navigate to main app
+        },
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget activeWidget;
@@ -112,7 +135,12 @@ class _GreetingPageState extends State<GreetingPage>
         break;
       case ActivePageEnum.LOGIN:
         activeWidget = LoginContent(
-          onLoginPressed: _playAnimationForward,
+          onLoginPressed: () {
+            setState(() {
+              _previousPage = activePage;
+            });
+            goToOnboarding();
+          },
           onRegisterPressed: _playAnimationReverse,
           goBack: backToGreeting,
         );
@@ -121,15 +149,21 @@ class _GreetingPageState extends State<GreetingPage>
         activeWidget = RegisterContent(
           goBack: backToGreeting,
           onGooglePressed: () {
-            print('Google registration pressed');
+            setState(() {
+              _previousPage = activePage;
+            });
+            goToOnboarding();
           },
           onApplePressed: () {
-            print('Apple registration pressed');
+            setState(() {
+              _previousPage = activePage;
+            });
+            goToOnboarding();
           },
         );
         break;
       default:
-        activeWidget = NotFoundPage(goBack: backToGreeting);
+        activeWidget = NotFoundContent(goBack: backToGreeting);
     }
 
     Widget _buildFloatingCircle(

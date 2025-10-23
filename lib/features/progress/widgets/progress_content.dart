@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:snd_aas/colors.dart';
+import 'package:snd_aas/features/progress/models/treatment_session.dart';
 
-/// Progress page content with calendar and photo gallery
+/// Progress page content with calendar and treatment summaries
 class ProgressContent extends StatefulWidget {
   const ProgressContent({Key? key}) : super(key: key);
 
@@ -13,8 +14,7 @@ class ProgressContent extends StatefulWidget {
 class _ProgressContentState extends State<ProgressContent> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  final Map<DateTime, List<String>> _treatmentDays = {};
-  final Map<DateTime, List<String>> _progressPhotos = {};
+  final Map<DateTime, List<TreatmentSession>> _treatmentSessions = {};
 
   @override
   void initState() {
@@ -24,35 +24,55 @@ class _ProgressContentState extends State<ProgressContent> {
   }
 
   void _loadMockData() {
-    // Mock treatment days and photos
+    // Mock treatment sessions
     final now = DateTime.now();
 
-    // Add some treatment days in the past
+    // Add some treatment sessions in the past
     for (int i = 0; i < 10; i++) {
       final date = DateTime(now.year, now.month, now.day - (i * 3));
       final normalizedDate = DateTime(date.year, date.month, date.day);
 
-      _treatmentDays[normalizedDate] = ['Gua Sha'];
-      _progressPhotos[normalizedDate] = [
-        'assets/tempImage.png', // Using placeholder
-      ];
+      // Sometimes add multiple sessions per day
+      final sessions = <TreatmentSession>[];
+
+      // Morning session
+      sessions.add(TreatmentSession(
+        id: 'session_${i}_1',
+        dateTime: DateTime(date.year, date.month, date.day, 9, 30),
+        treatmentType: i % 2 == 0 ? 'Gua Sha' : 'Electric Stimulator',
+        notes: i % 3 == 0 ? 'Felt great! Noticed reduced tension around jaw area.' : null,
+        photosPaths: i % 2 == 0 ? ['assets/tempImage.png'] : [],
+      ));
+
+      // Evening session (sometimes)
+      if (i % 4 == 0) {
+        sessions.add(TreatmentSession(
+          id: 'session_${i}_2',
+          dateTime: DateTime(date.year, date.month, date.day, 18, 45),
+          treatmentType: 'Gua Sha',
+          notes: 'Second session of the day. Feeling more relaxed.',
+          photosPaths: ['assets/tempImage.png'],
+        ));
+      }
+
+      _treatmentSessions[normalizedDate] = sessions;
     }
   }
 
-  List<String> _getPhotosForDay(DateTime day) {
+  List<TreatmentSession> _getSessionsForDay(DateTime day) {
     final normalizedDay = DateTime(day.year, day.month, day.day);
-    return _progressPhotos[normalizedDay] ?? [];
+    return _treatmentSessions[normalizedDay] ?? [];
   }
 
   bool _hasTreatmentOnDay(DateTime day) {
     final normalizedDay = DateTime(day.year, day.month, day.day);
-    return _treatmentDays.containsKey(normalizedDay);
+    return _treatmentSessions.containsKey(normalizedDay);
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final photos = _selectedDay != null ? _getPhotosForDay(_selectedDay!) : [];
+    final sessions = _selectedDay != null ? _getSessionsForDay(_selectedDay!) : [];
 
     return SingleChildScrollView(
       child: Column(
@@ -191,11 +211,11 @@ class _ProgressContentState extends State<ProgressContent> {
 
           const SizedBox(height: 16),
 
-          // Progress photos section
+          // Treatment sessions section
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
-              'Progress Photos',
+              'Treatment Sessions',
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: theme.colorScheme.primary,
@@ -205,8 +225,8 @@ class _ProgressContentState extends State<ProgressContent> {
 
           const SizedBox(height: 16),
 
-          // Photo gallery
-          if (photos.isEmpty)
+          // Sessions list
+          if (sessions.isEmpty)
             Padding(
               padding: const EdgeInsets.all(24),
               child: Container(
@@ -222,15 +242,13 @@ class _ProgressContentState extends State<ProgressContent> {
                 child: Column(
                   children: [
                     Icon(
-                      Icons.photo_library_outlined,
+                      Icons.event_busy,
                       size: 60,
                       color: theme.colorScheme.onSurface.withOpacity(0.3),
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      _hasTreatmentOnDay(_selectedDay ?? _focusedDay)
-                          ? 'No photos for this date'
-                          : 'No treatment on this date',
+                      'No treatments on this date',
                       style: theme.textTheme.bodyLarge?.copyWith(
                         color: theme.colorScheme.onSurface.withOpacity(0.5),
                       ),
@@ -241,81 +259,265 @@ class _ProgressContentState extends State<ProgressContent> {
               ),
             )
           else
-            GridView.builder(
+            ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 0.75,
-              ),
-              itemCount: photos.length,
+              itemCount: sessions.length,
               itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    _showPhotoDialog(context, photos[index]);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: kSNDPigmentGreen.withOpacity(0.2),
-                          blurRadius: 8,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          Image.asset(
-                            photos[index],
-                            fit: BoxFit.cover,
-                          ),
-                          // Gradient overlay
-                          Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.transparent,
-                                  Colors.black.withOpacity(0.3),
-                                ],
-                              ),
-                            ),
-                          ),
-                          // Tap to view indicator
-                          Positioned(
-                            bottom: 8,
-                            right: 8,
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.9),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                Icons.zoom_in,
-                                color: kSNDPigmentGreen,
-                                size: 20,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
+                final session = sessions[index];
+                return _buildTreatmentSessionCard(context, session, theme);
               },
             ),
 
           const SizedBox(height: 24),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTreatmentSessionCard(
+    BuildContext context,
+    TreatmentSession session,
+    ThemeData theme,
+  ) {
+    final sessionColor = session.treatmentType == 'Gua Sha'
+        ? kSNDYellowGreen
+        : kSNDPigmentGreen;
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: sessionColor.withOpacity(0.3),
+          width: 2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: sessionColor.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header with time and treatment type
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  sessionColor.withOpacity(0.1),
+                  sessionColor.withOpacity(0.05),
+                ],
+              ),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(14),
+                topRight: Radius.circular(14),
+              ),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: sessionColor.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(
+                    session.treatmentType == 'Gua Sha'
+                        ? Icons.spa
+                        : Icons.electric_bolt,
+                    color: sessionColor,
+                    size: 24,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        session.treatmentType,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: sessionColor,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.access_time,
+                            size: 14,
+                            color: theme.colorScheme.onSurface.withOpacity(0.6),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            session.timeString,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.onSurface.withOpacity(0.6),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Notes section
+          if (session.hasNotes)
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.note_outlined,
+                        size: 18,
+                        color: kSNDJade,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Notes',
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: kSNDJade,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: kSNDCeladon.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      session.notes!,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurface.withOpacity(0.8),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+          // Photos section
+          if (session.hasPhotos)
+            Padding(
+              padding: EdgeInsets.fromLTRB(16, session.hasNotes ? 0 : 16, 16, 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.photo_camera_outlined,
+                        size: 18,
+                        color: kSNDJade,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Progress Photos',
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: kSNDJade,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    height: 120,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: session.photosPaths.length,
+                      itemBuilder: (context, photoIndex) {
+                        return GestureDetector(
+                          onTap: () {
+                            _showPhotoDialog(context, session.photosPaths[photoIndex]);
+                          },
+                          child: Container(
+                            width: 100,
+                            margin: EdgeInsets.only(
+                              right: photoIndex < session.photosPaths.length - 1 ? 12 : 0,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: sessionColor.withOpacity(0.2),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Stack(
+                                fit: StackFit.expand,
+                                children: [
+                                  Image.asset(
+                                    session.photosPaths[photoIndex],
+                                    fit: BoxFit.cover,
+                                  ),
+                                  // Zoom indicator
+                                  Positioned(
+                                    bottom: 4,
+                                    right: 4,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.9),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        Icons.zoom_in,
+                                        color: sessionColor,
+                                        size: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+          // Empty state if no notes or photos
+          if (!session.hasNotes && !session.hasPhotos)
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Center(
+                child: Text(
+                  'No additional details',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurface.withOpacity(0.4),
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );

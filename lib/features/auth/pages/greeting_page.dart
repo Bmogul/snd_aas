@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:snd_aas/widgets/gradient_background.dart';
-import 'package:snd_aas/pages/greeting/greeting_content.dart';
+import 'package:go_router/go_router.dart';
+import 'package:snd_aas/widgets/shared/gradient_background.dart';
+import 'package:snd_aas/features/auth/widgets/greeting_content.dart';
 
 class GreetingPage extends StatefulWidget {
   const GreetingPage({Key? key}) : super(key: key);
@@ -31,27 +32,21 @@ class _GreetingPageState extends State<GreetingPage>
     super.dispose();
   }
 
-  Future<void> _navigateWithRotation(String route, double scaleBegin) async {
+  void _navigateToLogin() {
     final currentValue = _controller.value;
-    await Navigator.of(context).pushNamed(
-      route,
-      arguments: {
-        'currentRotation': currentValue,
-        'scaleBegin': scaleBegin,
-      },
-    );
-
-    // When returning, animate back to original rotation
-    _controller.animateTo(
-      currentValue,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
+    context.push('/login', extra: {
+      'currentRotation': currentValue,
+      'scaleBegin': 0.8,
+    });
   }
 
-  void _navigateToLogin() => _navigateWithRotation('/login', 0.8);
-
-  void _navigateToRegister() => _navigateWithRotation('/register', 1.2);
+  void _navigateToRegister() {
+    final currentValue = _controller.value;
+    context.push('/register', extra: {
+      'currentRotation': currentValue,
+      'scaleBegin': 1.2,
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:snd_aas/widgets/gradient_background.dart';
-import 'package:snd_aas/pages/onboarding/onboarding_content.dart';
+import 'package:snd_aas/widgets/shared/gradient_background.dart';
+import 'package:snd_aas/features/onboarding/widgets/onboarding_content.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({Key? key, required this.onGetStarted}) : super(key: key);

@@ -10,7 +10,7 @@ class NotificationsPage extends StatelessWidget {
     final theme = Theme.of(context);
 
     return MainLayout(
-      currentIndex: 1, // Notifications tab (second position)
+      currentIndex: 3, // Notifications tab (fourth position)
       child: SafeArea(
         child: Center(
           child: Padding(

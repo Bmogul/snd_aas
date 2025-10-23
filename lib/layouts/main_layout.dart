@@ -17,16 +17,16 @@ class MainLayout extends StatelessWidget {
   void _onNavTap(BuildContext context, int index) {
     switch (index) {
       case 0:
-        context.go('/progress');
+        context.go('/settings');
         break;
       case 1:
-        context.go('/notifications');
+        context.go('/progress');
         break;
       case 2:
         context.go('/home');
         break;
       case 3:
-        context.go('/settings');
+        context.go('/notifications');
         break;
       case 4:
         context.go('/profile');

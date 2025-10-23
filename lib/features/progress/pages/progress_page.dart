@@ -10,7 +10,7 @@ class ProgressPage extends StatelessWidget {
     final theme = Theme.of(context);
 
     return MainLayout(
-      currentIndex: 0, // Progress tab (first position)
+      currentIndex: 1, // Progress tab (second position)
       child: SafeArea(
         child: Center(
           child: Padding(

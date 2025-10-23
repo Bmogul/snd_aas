@@ -10,7 +10,7 @@ class SettingsPage extends StatelessWidget {
     final theme = Theme.of(context);
 
     return MainLayout(
-      currentIndex: 3, // Settings tab (fourth position)
+      currentIndex: 0, // Settings tab (first position)
       child: SafeArea(
         child: Center(
           child: Padding(

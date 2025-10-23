@@ -25,13 +25,13 @@ class AppBottomNav extends StatelessWidget {
       showUnselectedLabels: false,
       items: const [
         BottomNavigationBarItem(
-          icon: Icon(Icons.calendar_today_outlined),
-          activeIcon: Icon(Icons.calendar_today),
+          icon: Icon(Icons.settings_outlined),
+          activeIcon: Icon(Icons.settings),
           label: '',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.notifications_outlined),
-          activeIcon: Icon(Icons.notifications),
+          icon: Icon(Icons.calendar_today_outlined),
+          activeIcon: Icon(Icons.calendar_today),
           label: '',
         ),
         BottomNavigationBarItem(
@@ -40,8 +40,8 @@ class AppBottomNav extends StatelessWidget {
           label: '',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings_outlined),
-          activeIcon: Icon(Icons.settings),
+          icon: Icon(Icons.notifications_outlined),
+          activeIcon: Icon(Icons.notifications),
           label: '',
         ),
         BottomNavigationBarItem(

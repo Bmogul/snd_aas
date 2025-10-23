@@ -9,11 +9,44 @@ class HomeContent extends StatelessWidget {
     required this.onGuaShaPressed,
     required this.onElectricStimulatorPressed,
     this.userName = 'User',
+    this.lastTreatment,
+    this.lastTreatmentDate,
   }) : super(key: key);
 
   final VoidCallback onGuaShaPressed;
   final VoidCallback onElectricStimulatorPressed;
   final String userName;
+  final String? lastTreatment;
+  final DateTime? lastTreatmentDate;
+
+  String _getTimeBasedGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'Good morning';
+    } else if (hour < 17) {
+      return 'Good afternoon';
+    } else {
+      return 'Good evening';
+    }
+  }
+
+  String _getRelativeTime(DateTime date) {
+    final now = DateTime.now();
+    final difference = now.difference(date);
+
+    if (difference.inDays == 0) {
+      if (difference.inHours == 0) {
+        return '${difference.inMinutes} minutes ago';
+      }
+      return '${difference.inHours} hours ago';
+    } else if (difference.inDays == 1) {
+      return 'Yesterday';
+    } else if (difference.inDays < 7) {
+      return '${difference.inDays} days ago';
+    } else {
+      return '${date.day}/${date.month}/${date.year}';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +68,7 @@ class HomeContent extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Welcome back, $userName!',
+                  '${_getTimeBasedGreeting()}, $userName!',
                   style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: theme.colorScheme.primary,
@@ -44,7 +77,7 @@ class HomeContent extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Choose your treatment',
+                  'Ready for your next session?',
                   style: theme.textTheme.titleMedium?.copyWith(
                     color: theme.colorScheme.onSurface.withOpacity(0.7),
                   ),

@@ -20,8 +20,8 @@ class RegisterPage extends StatelessWidget {
       onBackPressed: () => context.pop(),
       child: RegisterForm(
         goBack: () => context.pop(),
-        onGooglePressed: () => context.go('/home'),
-        onApplePressed: () => context.go('/home'),
+        onGooglePressed: () => context.go('/onboarding'),
+        onApplePressed: () => context.go('/onboarding'),
       ),
     );
   }

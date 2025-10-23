@@ -11,10 +11,10 @@ class OnboardingPage extends StatelessWidget {
   void _handleGetStarted(BuildContext context) {
     if (onGetStarted != null) {
       onGetStarted!();
-    } else {
+    }
       // Navigate to home page
       context.go('/home');
-    }
+    
   }
 
   @override

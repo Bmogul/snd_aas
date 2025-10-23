@@ -19,7 +19,7 @@ class LoginPage extends StatelessWidget {
       showBackButton: true,
       onBackPressed: () => context.pop(),
       child: LoginForm(
-        onLoginPressed: () => context.go('/home'),
+        onLoginPressed: () => context.go('/onboarding'),
         onRegisterPressed: () {
           final state = context.findAncestorStateOfType<AnimatedPageBaseState>();
           final currentRotation = state?.currentRotation ?? 0.0;

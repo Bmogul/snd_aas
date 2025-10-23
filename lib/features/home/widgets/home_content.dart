@@ -6,13 +6,13 @@ import 'package:snd_aas/colors.dart';
 class HomeContent extends StatelessWidget {
   const HomeContent({
     Key? key,
-    required this.onQuickTreatmentPressed,
-    required this.onDeepTreatmentPressed,
+    required this.onGuaShaPressed,
+    required this.onElectricStimulatorPressed,
     this.userName = 'User',
   }) : super(key: key);
 
-  final VoidCallback onQuickTreatmentPressed;
-  final VoidCallback onDeepTreatmentPressed;
+  final VoidCallback onGuaShaPressed;
+  final VoidCallback onElectricStimulatorPressed;
   final String userName;
 
   @override
@@ -67,28 +67,31 @@ class HomeContent extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Treatment cards in a row
-          Row(
-            children: [
-              Expanded(
-                child: TreatmentFlowCard(
-                  title: 'Gua Sha',
-                  description: 'Takes about 20 minutes',
-                  icon: Icons.spa,
-                  accentColor: kSNDYellowGreen,
-                  onTap: onQuickTreatmentPressed,
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: TreatmentFlowCard(
+                    title: 'Gua Sha',
+                    description: 'Takes about 20 minutes',
+                    icon: Icons.spa,
+                    accentColor: kSNDYellowGreen,
+                    onTap: onGuaShaPressed,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: TreatmentFlowCard(
-                  title: 'Electric Stimulator',
-                  description: 'Takes about 45 minutes',
-                  icon: Icons.electric_bolt,
-                  accentColor: kSNDPigmentGreen,
-                  onTap: onDeepTreatmentPressed,
+                const SizedBox(width: 16),
+                Expanded(
+                  child: TreatmentFlowCard(
+                    title: 'Electric Stimulator',
+                    description: 'Takes about 45 minutes',
+                    icon: Icons.electric_bolt,
+                    accentColor: kSNDPigmentGreen,
+                    onTap: onElectricStimulatorPressed,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
 
           const SizedBox(height: 32),

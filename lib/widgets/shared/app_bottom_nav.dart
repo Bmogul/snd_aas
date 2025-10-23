@@ -21,33 +21,33 @@ class AppBottomNav extends StatelessWidget {
       type: BottomNavigationBarType.fixed,
       selectedItemColor: theme.colorScheme.primary,
       unselectedItemColor: theme.colorScheme.secondary.withOpacity(0.6),
-      selectedFontSize: 12,
-      unselectedFontSize: 12,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.calendar_today_outlined),
           activeIcon: Icon(Icons.calendar_today),
-          label: 'Progress',
+          label: '',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.notifications_outlined),
           activeIcon: Icon(Icons.notifications),
-          label: 'Notifications',
+          label: '',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.home_outlined),
           activeIcon: Icon(Icons.home),
-          label: 'Home',
+          label: '',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings_outlined),
           activeIcon: Icon(Icons.settings),
-          label: 'Settings',
+          label: '',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline),
           activeIcon: Icon(Icons.person),
-          label: 'Profile',
+          label: '',
         ),
       ],
     );

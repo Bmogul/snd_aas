@@ -6,23 +6,23 @@ import 'package:snd_aas/features/home/widgets/home_content.dart';
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  void _onQuickTreatmentPressed(BuildContext context) {
-    // TODO: Navigate to quick treatment flow
-    debugPrint('Quick treatment selected');
+  void _onGuaShaPressed(BuildContext context) {
+    // TODO: Navigate to Gua Sha treatment flow
+    debugPrint('Gua Sha treatment selected');
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Quick Treatment flow coming soon!'),
+        content: Text('Gua Sha treatment flow coming soon!'),
         duration: Duration(seconds: 2),
       ),
     );
   }
 
-  void _onDeepTreatmentPressed(BuildContext context) {
-    // TODO: Navigate to deep treatment flow
-    debugPrint('Deep treatment selected');
+  void _onElectricStimulatorPressed(BuildContext context) {
+    // TODO: Navigate to Electric Stimulator treatment flow
+    debugPrint('Electric Stimulator treatment selected');
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Deep Treatment flow coming soon!'),
+        content: Text('Electric Stimulator flow coming soon!'),
         duration: Duration(seconds: 2),
       ),
     );
@@ -34,8 +34,8 @@ class HomePage extends StatelessWidget {
       currentIndex: 2, // Home tab (middle position)
       child: SafeArea(
         child: HomeContent(
-          onQuickTreatmentPressed: () => _onQuickTreatmentPressed(context),
-          onDeepTreatmentPressed: () => _onDeepTreatmentPressed(context),
+          onGuaShaPressed: () => _onGuaShaPressed(context),
+          onElectricStimulatorPressed: () => _onElectricStimulatorPressed(context),
           userName: 'Alex', // TODO: Get from user state/provider
         ),
       ),

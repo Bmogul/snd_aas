@@ -52,7 +52,7 @@ class CameraAccessStep extends StatelessWidget {
           const SizedBox(height: 16),
           // Description
           Text(
-            'We need access to your camera to capture treatment progress photos. This helps you track improvements over time.',
+            'We need access to your camera to create treatment maps and capture treatment progress photos. This helps you track improvements over time.',
             style: theme.textTheme.bodyLarge?.copyWith(
               color: theme.colorScheme.onSurface.withOpacity(0.7),
             ),

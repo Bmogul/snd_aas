@@ -20,7 +20,6 @@ class OnboardingPage extends StatefulWidget {
 class _OnboardingPageState extends State<OnboardingPage> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
-  bool _hasFacialParalysis = false;
 
   @override
   void dispose() {
@@ -62,29 +61,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
           SafeArea(
             child: Column(
               children: [
-                // Progress indicator
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                  child: Row(
-                    children: List.generate(
-                      6,
-                      (index) => Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(
-                            right: index < 5 ? 8 : 0,
-                          ),
-                          height: 4,
-                          decoration: BoxDecoration(
-                            color: index <= _currentPage
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
                 // Page content
                 Expanded(
                   child: PageView(
@@ -100,9 +76,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       RemindersStep(onNext: _nextPage, onSkip: _nextPage),
                       FacialParalysisStep(
                         onAnswer: (hasParalysis) {
-                          setState(() {
-                            _hasFacialParalysis = hasParalysis;
-                          });
+                          // TODO: Store hasParalysis in user state/preferences
                           _nextPage();
                         },
                       ),
@@ -111,10 +85,31 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     ],
                   ),
                 ),
+                // Progress indicator (dots)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      6,
+                      (index) => Container(
+                        margin: EdgeInsets.symmetric(horizontal: 4),
+                        width: index == _currentPage ? 12 : 8,
+                        height: index == _currentPage ? 12 : 8,
+                        decoration: BoxDecoration(
+                          color: index == _currentPage
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 // Navigation buttons
                 if (_currentPage > 0)
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.only(bottom: 16.0),
                     child: TextButton.icon(
                       onPressed: _previousPage,
                       icon: const Icon(Icons.arrow_back),

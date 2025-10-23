@@ -229,32 +229,35 @@ class _ProgressContentState extends State<ProgressContent> {
           if (sessions.isEmpty)
             Padding(
               padding: const EdgeInsets.all(24),
-              child: Container(
-                padding: const EdgeInsets.all(32),
-                decoration: BoxDecoration(
-                  color: kSNDCeladon.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: kSNDCeladon.withOpacity(0.3),
-                    width: 1,
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.all(32),
+                  decoration: BoxDecoration(
+                    color: kSNDCeladon.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: kSNDCeladon.withOpacity(0.3),
+                      width: 1,
+                    ),
                   ),
-                ),
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.event_busy,
-                      size: 60,
-                      color: theme.colorScheme.onSurface.withOpacity(0.3),
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'No treatments on this date',
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        color: theme.colorScheme.onSurface.withOpacity(0.5),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.event_busy,
+                        size: 60,
+                        color: theme.colorScheme.onSurface.withOpacity(0.3),
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+                      const SizedBox(height: 16),
+                      Text(
+                        'No treatments on this date',
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: theme.colorScheme.onSurface.withOpacity(0.5),
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             )

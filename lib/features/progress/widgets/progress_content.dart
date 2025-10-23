@@ -34,7 +34,7 @@ class _ProgressContentState extends State<ProgressContent> {
 
       _treatmentDays[normalizedDate] = ['Gua Sha'];
       _progressPhotos[normalizedDate] = [
-        'assets/logo.png', // Using placeholder
+        'assets/tempImage.png', // Using placeholder
       ];
     }
   }

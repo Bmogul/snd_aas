@@ -4,6 +4,11 @@ import 'package:snd_aas/features/auth/pages/greeting_page.dart';
 import 'package:snd_aas/features/auth/pages/login_page.dart';
 import 'package:snd_aas/features/auth/pages/register_page.dart';
 import 'package:snd_aas/features/onboarding/pages/onboarding_page.dart';
+import 'package:snd_aas/features/home/pages/home_page.dart';
+import 'package:snd_aas/features/progress/pages/progress_page.dart';
+import 'package:snd_aas/features/notifications/pages/notifications_page.dart';
+import 'package:snd_aas/features/settings/pages/settings_page.dart';
+import 'package:snd_aas/features/profile/pages/profile_page.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/',
@@ -85,6 +90,77 @@ final GoRouter router = GoRouter(
           },
         );
       },
+    ),
+    // Main app routes
+    GoRoute(
+      path: '/home',
+      name: 'home',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const HomePage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/progress',
+      name: 'progress',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const ProgressPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/notifications',
+      name: 'notifications',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const NotificationsPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/settings',
+      name: 'settings',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const SettingsPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/profile',
+      name: 'profile',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const ProfilePage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
     ),
   ],
 );

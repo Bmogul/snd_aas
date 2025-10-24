@@ -120,7 +120,7 @@ class _NotificationsContentState extends State<NotificationsContent>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Notifications & Routines',
+                'Reminders',
                 style: theme.textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: theme.colorScheme.primary,
@@ -140,13 +140,14 @@ class _NotificationsContentState extends State<NotificationsContent>
         // Tab bar
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
                 color: kSNDPigmentGreen.withOpacity(0.1),
-                blurRadius: 4,
+                blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
             ],
@@ -155,7 +156,7 @@ class _NotificationsContentState extends State<NotificationsContent>
             controller: _tabController,
             indicator: BoxDecoration(
               color: kSNDPigmentGreen,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(10),
             ),
             labelColor: Colors.white,
             unselectedLabelColor: theme.colorScheme.onSurface.withOpacity(0.6),
@@ -163,14 +164,19 @@ class _NotificationsContentState extends State<NotificationsContent>
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
+            labelPadding: const EdgeInsets.symmetric(vertical: 8),
+            indicatorSize: TabBarIndicatorSize.tab,
+            dividerColor: Colors.transparent,
             tabs: const [
               Tab(
-                icon: Icon(Icons.notifications_outlined, size: 20),
+                icon: Icon(Icons.notifications_outlined, size: 22),
                 text: 'Notifications',
+                height: 70,
               ),
               Tab(
-                icon: Icon(Icons.calendar_today_outlined, size: 20),
+                icon: Icon(Icons.calendar_today_outlined, size: 22),
                 text: 'Routines',
+                height: 70,
               ),
             ],
           ),

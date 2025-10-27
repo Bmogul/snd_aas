@@ -700,19 +700,7 @@ class _ProfileContentState extends State<ProfileContent> {
   }
 
   void _showCompareDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Compare Photos'),
-        content: const Text('Photo comparison feature coming soon'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
+    context.push('/compare');
   }
 
   void _showLogoutDialog(BuildContext context) {

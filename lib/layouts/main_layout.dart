@@ -36,11 +36,20 @@ class MainLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: child,
-      bottomNavigationBar: AppBottomNav(
-        currentIndex: currentIndex,
-        onTap: (index) => _onNavTap(context, index),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (bool didPop) {
+        if (!didPop) {
+          // Prevent back navigation from main pages
+          // Stay on current page
+        }
+      },
+      child: Scaffold(
+        body: child,
+        bottomNavigationBar: AppBottomNav(
+          currentIndex: currentIndex,
+          onTap: (index) => _onNavTap(context, index),
+        ),
       ),
     );
   }

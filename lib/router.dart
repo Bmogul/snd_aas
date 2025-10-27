@@ -9,6 +9,7 @@ import 'package:snd_aas/features/progress/pages/progress_page.dart';
 import 'package:snd_aas/features/notifications/pages/notifications_page.dart';
 import 'package:snd_aas/features/settings/pages/settings_page.dart';
 import 'package:snd_aas/features/profile/pages/profile_page.dart';
+import 'package:snd_aas/features/progress/pages/photo_comparison_page.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/',
@@ -154,6 +155,20 @@ final GoRouter router = GoRouter(
       pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
         child: const ProfilePage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/compare',
+      name: 'compare',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const PhotoComparisonPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(
             opacity: animation,

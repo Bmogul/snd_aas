@@ -28,8 +28,8 @@ class _PhotoComparisonPageState extends State<PhotoComparisonPage> {
     // Mock data - simulate before and after photos
     _beforeDate = DateTime.now().subtract(const Duration(days: 30));
     _afterDate = DateTime.now();
-    _beforePhoto = 'assets/logo.png';
-    _afterPhoto = 'assets/logo.png';
+    _beforePhoto = 'assets/tempImage.png';
+    _afterPhoto = 'assets/tempImage.png';
   }
 
   @override

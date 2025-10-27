@@ -44,10 +44,10 @@ class _ProfileContentState extends State<ProfileContent> {
 
     // Mock recent photos
     _recentPhotos.addAll([
+      'assets/tempImage.png',
       'assets/logo.png',
       'assets/logo.png',
-      'assets/logo.png',
-      'assets/logo.png',
+      'assets/tempImage.png',
     ]);
   }
 

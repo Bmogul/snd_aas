@@ -141,6 +141,105 @@ class _ProgressContentState extends State<ProgressContent> {
                   shape: BoxShape.circle,
                 ),
                 markersMaxCount: 1,
+                markersAlignment: Alignment.bottomCenter,
+                markerSize: 7,
+                markerMargin: const EdgeInsets.only(top: 2),
+              ),
+              calendarBuilders: CalendarBuilders(
+                markerBuilder: (context, date, events) {
+                  // Don't show default markers for selected or today dates
+                  // as we handle them in the custom builders
+                  if (isSameDay(_selectedDay, date) || isSameDay(DateTime.now(), date)) {
+                    return const SizedBox.shrink();
+                  }
+
+                  // Show default marker for other dates
+                  if (events.isNotEmpty) {
+                    return Positioned(
+                      bottom: 1,
+                      child: Container(
+                        width: 6,
+                        height: 6,
+                        decoration: BoxDecoration(
+                          color: kSNDJade,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+                selectedBuilder: (context, date, _) {
+                  final hasTreatment = _hasTreatmentOnDay(date);
+                  return Container(
+                    margin: const EdgeInsets.all(4),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: kSNDPigmentGreen,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '${date.day}',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        if (hasTreatment)
+                          Container(
+                            margin: const EdgeInsets.only(top: 2),
+                            width: 6,
+                            height: 6,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                      ],
+                    ),
+                  );
+                },
+                todayBuilder: (context, date, _) {
+                  final hasTreatment = _hasTreatmentOnDay(date);
+                  final isSelected = isSameDay(_selectedDay, date);
+
+                  if (isSelected) {
+                    return null; // Let selectedBuilder handle it
+                  }
+
+                  return Container(
+                    margin: const EdgeInsets.all(4),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: kSNDYellowGreen.withOpacity(0.5),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '${date.day}',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        if (hasTreatment)
+                          Container(
+                            margin: const EdgeInsets.only(top: 2),
+                            width: 6,
+                            height: 6,
+                            decoration: BoxDecoration(
+                              color: kSNDJade,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                      ],
+                    ),
+                  );
+                },
               ),
               headerStyle: HeaderStyle(
                 formatButtonVisible: false,
@@ -333,13 +432,19 @@ class _ProgressContentState extends State<ProgressContent> {
                     color: sessionColor.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Icon(
-                    session.treatmentType == 'Gua Sha'
-                        ? Icons.spa
-                        : Icons.electric_bolt,
-                    color: sessionColor,
-                    size: 24,
-                  ),
+                  child: session.treatmentType == 'Gua Sha'
+                      ? Image.asset(
+                          'assets/gua_sha.png',
+                          width: 30,
+                          height: 30,
+                          fit: BoxFit.contain,
+                        )
+                      : Image.asset(
+                          'assets/es.png',
+                          width: 30,
+                          height: 30,
+                          fit: BoxFit.contain,
+                        ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:snd_aas/features/home/widgets/treatment_flow_card.dart';
 import 'package:snd_aas/colors.dart';
 
@@ -159,7 +160,7 @@ class _HomeContentState extends State<HomeContent> with SingleTickerProviderStat
                           child: TreatmentFlowCard(
                             title: 'Gua Sha',
                             description: 'Takes about 20 minutes',
-                            icon: Icons.spa,
+                            imagePath: 'assets/gua_sha.png',
                             accentColor: kSNDYellowGreen,
                             onTap: widget.onGuaShaPressed,
                           ),
@@ -169,12 +170,38 @@ class _HomeContentState extends State<HomeContent> with SingleTickerProviderStat
                           child: TreatmentFlowCard(
                             title: 'Electric Stimulator',
                             description: 'Takes about 45 minutes',
-                            icon: Icons.electric_bolt,
+                            imagePath: 'assets/es.png',
                             accentColor: kSNDPigmentGreen,
                             onTap: widget.onElectricStimulatorPressed,
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  // How to Use button
+                  Center(
+                    child: TextButton.icon(
+                      onPressed: () {
+                        context.push('/introduction');
+                      },
+                      icon: const Icon(Icons.play_circle_outline, size: 20),
+                      label: const Text('How to Use - Watch Tutorial'),
+                      style: TextButton.styleFrom(
+                        foregroundColor: kSNDPigmentGreen,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
+                        backgroundColor: kSNDPigmentGreen.withOpacity(0.1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: BorderSide(
+                            color: kSNDPigmentGreen.withOpacity(0.3),
+                            width: 1,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],

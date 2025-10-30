@@ -347,7 +347,7 @@ class _NotificationsContentState extends State<NotificationsContent>
             theme: theme,
             routine: _guaShaRoutine,
             color: kSNDYellowGreen,
-            icon: Icons.spa,
+            imagePath: 'assets/gua_sha.png',
             onRoutineChanged: (newRoutine) {
               setState(() {
                 _guaShaRoutine = newRoutine;
@@ -359,7 +359,7 @@ class _NotificationsContentState extends State<NotificationsContent>
             theme: theme,
             routine: _electricStimRoutine,
             color: kSNDPigmentGreen,
-            icon: Icons.electric_bolt,
+            imagePath: 'assets/es.png',
             onRoutineChanged: (newRoutine) {
               setState(() {
                 _electricStimRoutine = newRoutine;
@@ -375,7 +375,8 @@ class _NotificationsContentState extends State<NotificationsContent>
     required ThemeData theme,
     required model.WeeklyRoutine routine,
     required Color color,
-    required IconData icon,
+    IconData? icon,
+    String? imagePath,
     required Function(model.WeeklyRoutine) onRoutineChanged,
   }) {
     final days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -424,11 +425,18 @@ class _NotificationsContentState extends State<NotificationsContent>
                     color: color.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(
-                    icon,
-                    color: color,
-                    size: 28,
-                  ),
+                  child: imagePath != null
+                      ? Image.asset(
+                          imagePath,
+                          width: 36,
+                          height: 36,
+                          fit: BoxFit.contain,
+                        )
+                      : Icon(
+                          icon,
+                          color: color,
+                          size: 28,
+                        ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(

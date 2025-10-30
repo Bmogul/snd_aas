@@ -92,9 +92,10 @@ class ReadyStep extends StatelessWidget {
               children: [
                 _buildFeature(
                   context,
-                  Icons.spa,
+                  null,
                   'Guided Treatments',
                   'Step-by-step instructions',
+                  imagePath: 'assets/gua_sha.png',
                 ),
                 const SizedBox(height: 16),
                 _buildFeature(
@@ -143,7 +144,7 @@ class ReadyStep extends StatelessWidget {
     );
   }
 
-  Widget _buildFeature(BuildContext context, IconData icon, String title, String subtitle) {
+  Widget _buildFeature(BuildContext context, IconData? icon, String title, String subtitle, {String? imagePath}) {
     final theme = Theme.of(context);
     return Row(
       children: [
@@ -153,11 +154,18 @@ class ReadyStep extends StatelessWidget {
             color: kSNDJade.withOpacity(0.2),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(
-            icon,
-            color: kSNDJade,
-            size: 28,
-          ),
+          child: imagePath != null
+              ? Image.asset(
+                  imagePath,
+                  width: 28,
+                  height: 28,
+                  fit: BoxFit.contain,
+                )
+              : Icon(
+                  icon,
+                  color: kSNDJade,
+                  size: 28,
+                ),
         ),
         const SizedBox(width: 16),
         Expanded(

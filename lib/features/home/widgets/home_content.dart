@@ -159,7 +159,7 @@ class _HomeContentState extends State<HomeContent> with SingleTickerProviderStat
                           child: TreatmentFlowCard(
                             title: 'Gua Sha',
                             description: 'Takes about 20 minutes',
-                            icon: Icons.spa,
+                            imagePath: 'assets/gua_sha.png',
                             accentColor: kSNDYellowGreen,
                             onTap: widget.onGuaShaPressed,
                           ),
@@ -169,7 +169,7 @@ class _HomeContentState extends State<HomeContent> with SingleTickerProviderStat
                           child: TreatmentFlowCard(
                             title: 'Electric Stimulator',
                             description: 'Takes about 45 minutes',
-                            icon: Icons.electric_bolt,
+                            imagePath: 'assets/es.png',
                             accentColor: kSNDPigmentGreen,
                             onTap: widget.onElectricStimulatorPressed,
                           ),

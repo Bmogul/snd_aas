@@ -333,13 +333,19 @@ class _ProgressContentState extends State<ProgressContent> {
                     color: sessionColor.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Icon(
-                    session.treatmentType == 'Gua Sha'
-                        ? Icons.spa
-                        : Icons.electric_bolt,
-                    color: sessionColor,
-                    size: 24,
-                  ),
+                  child: session.treatmentType == 'Gua Sha'
+                      ? Image.asset(
+                          'assets/gua_sha.png',
+                          width: 24,
+                          height: 24,
+                          fit: BoxFit.contain,
+                        )
+                      : Image.asset(
+                          'assets/es.png',
+                          width: 24,
+                          height: 24,
+                          fit: BoxFit.contain,
+                        ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(

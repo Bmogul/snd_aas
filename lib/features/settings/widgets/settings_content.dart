@@ -378,7 +378,8 @@ class _SettingsContentState extends State<SettingsContent> {
   Widget _buildSection({
     required ThemeData theme,
     required String title,
-    required IconData icon,
+    IconData? icon,
+    String? imagePath,
     required Color color,
     required bool isExpanded,
     required VoidCallback onToggle,
@@ -412,7 +413,14 @@ class _SettingsContentState extends State<SettingsContent> {
               padding: const EdgeInsets.all(16),
               child: Row(
                 children: [
-                  Icon(icon, color: color, size: 24),
+                  imagePath != null
+                      ? Image.asset(
+                          imagePath,
+                          width: 24,
+                          height: 24,
+                          fit: BoxFit.contain,
+                        )
+                      : Icon(icon, color: color, size: 24),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(

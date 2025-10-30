@@ -595,9 +595,10 @@ class _ProfileContentState extends State<ProfileContent> {
     ThemeData theme,
     String value,
     String label,
-    IconData icon,
-    Color color,
-  ) {
+    IconData? icon,
+    Color color, {
+    String? imagePath,
+  }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -610,7 +611,14 @@ class _ProfileContentState extends State<ProfileContent> {
       ),
       child: Column(
         children: [
-          Icon(icon, color: color, size: 28),
+          imagePath != null
+              ? Image.asset(
+                  imagePath,
+                  width: 28,
+                  height: 28,
+                  fit: BoxFit.contain,
+                )
+              : Icon(icon, color: color, size: 28),
           const SizedBox(height: 8),
           Text(
             value,

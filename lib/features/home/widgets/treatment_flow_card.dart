@@ -6,14 +6,17 @@ class TreatmentFlowCard extends StatelessWidget {
     Key? key,
     required this.title,
     required this.description,
-    required this.icon,
+    this.icon,
+    this.imagePath,
     required this.accentColor,
     required this.onTap,
-  }) : super(key: key);
+  }) : assert(icon != null || imagePath != null, 'Either icon or imagePath must be provided'),
+       super(key: key);
 
   final String title;
   final String description;
-  final IconData icon;
+  final IconData? icon;
+  final String? imagePath;
   final Color accentColor;
   final VoidCallback onTap;
 
@@ -58,11 +61,18 @@ class TreatmentFlowCard extends StatelessWidget {
                   color: accentColor.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(
-                  icon,
-                  size: 40,
-                  color: accentColor,
-                ),
+                child: imagePath != null
+                    ? Image.asset(
+                        imagePath!,
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.contain,
+                      )
+                    : Icon(
+                        icon,
+                        size: 40,
+                        color: accentColor,
+                      ),
               ),
               const SizedBox(height: 16),
               // Text section

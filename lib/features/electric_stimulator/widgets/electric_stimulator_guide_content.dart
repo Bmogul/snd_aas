@@ -3,6 +3,18 @@ import 'package:go_router/go_router.dart';
 import 'package:snd_aas/colors.dart';
 
 /// Content widget for the Electric Stimulator guide page
+///
+/// TODO: [MILESTONE 2 - Treatment Workflows] Implement Electric Stimulator treatment flow
+/// - Create step-by-step guided workflow for each routine type
+/// - Full Routine: 8 facial zones with specific stimulation patterns
+/// - Facial Paralysis (Left/Right): Targeted muscle group stimulation
+/// - Include timer for each electrode placement (3-5 minutes per zone)
+/// - Show anatomical diagrams for electrode placement
+/// - Add intensity level recommendations (start low, gradually increase)
+/// - Implement safety warnings and contraindications check
+/// - Include rest periods between zones
+/// - Add audio/vibration cues for zone completion
+/// - Track total treatment duration (45 minutes)
 class ElectricStimulatorGuideContent extends StatefulWidget {
   const ElectricStimulatorGuideContent({Key? key}) : super(key: key);
 

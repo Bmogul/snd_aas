@@ -4,6 +4,18 @@ import 'package:snd_aas/colors.dart';
 import 'package:snd_aas/features/progress/models/treatment_session.dart';
 
 /// Progress page content with calendar and treatment summaries
+///
+/// TODO: [MILESTONE 4 - Photo Gallery] Implement comprehensive photo gallery
+/// - Create grid view of progress photos organized by date
+/// - Add filtering by treatment type (Gua Sha, Electric Stimulator)
+/// - Implement timeline view showing progress over weeks/months
+/// - Add side-by-side photo comparison feature (before/after)
+/// - Enable photo annotations and notes overlay
+/// - Implement photo zoom and full-screen view
+/// - Add export functionality (share progress, create collages)
+/// - Show facial measurement changes over time if face detection data available
+/// - Add photo deletion with confirmation
+/// - Implement photo upload from gallery for backfilling history
 class ProgressContent extends StatefulWidget {
   const ProgressContent({Key? key}) : super(key: key);
 
@@ -14,6 +26,11 @@ class ProgressContent extends StatefulWidget {
 class _ProgressContentState extends State<ProgressContent> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+  // TODO: [MILESTONE 3 - Backend Infrastructure] Load treatment history from cloud
+  // - Fetch all treatment sessions from database
+  // - Load associated photos and notes
+  // - Calculate treatment statistics (total count, streaks, consistency)
+  // - Cache data locally for offline access
   final Map<DateTime, List<TreatmentSession>> _treatmentSessions = {};
 
   @override

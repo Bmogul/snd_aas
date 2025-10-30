@@ -4,6 +4,18 @@ import 'package:snd_aas/features/notifications/models/app_notification.dart';
 import 'package:snd_aas/features/notifications/models/weekly_routine.dart' as model;
 
 /// Notifications page content with reminders and routine scheduling
+///
+/// TODO: [MILESTONE 4 - Routine Scheduler & Reminder Notifications]
+/// - Implement local notification scheduling with flutter_local_notifications
+/// - Schedule reminders based on user's weekly routine settings
+/// - Send push notifications at scheduled times
+/// - Add notification permission handling
+/// - Implement notification actions (Mark as done, Snooze, Reschedule)
+/// - Add customizable notification sounds/vibrations
+/// - Track notification interaction analytics
+/// - Sync notification preferences to cloud
+/// - Handle timezone changes
+/// - Add recurring notification support
 class NotificationsContent extends StatefulWidget {
   const NotificationsContent({Key? key}) : super(key: key);
 
@@ -21,6 +33,12 @@ class _NotificationsContentState extends State<NotificationsContent>
   @override
   void initState() {
     super.initState();
+    // TODO: [MILESTONE 4 - Routine Scheduler] Load scheduled routines from database
+    // - Fetch user's saved weekly routines
+    // - Load notification preferences
+    // - Check upcoming scheduled treatments
+    // - Update notification badges
+
     _tabController = TabController(length: 2, vsync: this);
     _loadMockData();
   }

@@ -78,7 +78,7 @@ class _LoginFormState extends State<LoginForm> {
               ),
               SizedBox(height: 10),
               ResponsiveButton(
-                onPressed: widget.onRegisterPressed,
+                onPressed: widget.onLoginPressed,
                 label: "Continue with Apple",
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,

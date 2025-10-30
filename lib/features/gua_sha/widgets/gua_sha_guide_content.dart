@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:snd_aas/colors.dart';
 
 /// Content widget for the Gua Sha guide page
@@ -122,13 +123,11 @@ class GuaShaGuideContent extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // TODO: Navigate to treatment flow
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Treatment flow coming soon!'),
-                      duration: Duration(seconds: 2),
-                    ),
-                  );
+                  context.push('/post-treatment-form', extra: {
+                    'treatmentName': 'Gua Sha',
+                    'treatmentIcon': 'assets/gua_sha.png',
+                    'accentColor': kSNDYellowGreen,
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: kSNDYellowGreen,

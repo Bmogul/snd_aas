@@ -13,6 +13,7 @@ import 'package:snd_aas/features/progress/pages/photo_comparison_page.dart';
 import 'package:snd_aas/features/introduction/pages/introduction_page.dart';
 import 'package:snd_aas/features/gua_sha/pages/gua_sha_guide_page.dart';
 import 'package:snd_aas/features/electric_stimulator/pages/electric_stimulator_guide_page.dart';
+import 'package:snd_aas/features/treatment/pages/post_treatment_form_page.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/',
@@ -221,6 +222,27 @@ final GoRouter router = GoRouter(
           );
         },
       ),
+    ),
+    GoRoute(
+      path: '/post-treatment-form',
+      name: 'post-treatment-form',
+      pageBuilder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>;
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: PostTreatmentFormPage(
+            treatmentName: extra['treatmentName'] as String,
+            treatmentIcon: extra['treatmentIcon'] as String,
+            accentColor: extra['accentColor'] as Color,
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
     ),
   ],
 );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:snd_aas/colors.dart';
 
 /// Content widget for the Electric Stimulator guide page
@@ -195,18 +196,17 @@ class _ElectricStimulatorGuideContentState
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // TODO: Navigate to treatment flow with selected routine
                   final routineName = _selectedRoutine == 'full'
                       ? 'ES Full Routine'
                       : _selectedRoutine == 'left'
                           ? 'Facial Paralysis (Left)'
                           : 'Facial Paralysis (Right)';
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Starting $routineName - Coming soon!'),
-                      duration: const Duration(seconds: 2),
-                    ),
-                  );
+
+                  context.push('/post-treatment-form', extra: {
+                    'treatmentName': routineName,
+                    'treatmentIcon': 'assets/es.png',
+                    'accentColor': kSNDPigmentGreen,
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: kSNDPigmentGreen,

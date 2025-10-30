@@ -12,14 +12,7 @@ class HomePage extends StatelessWidget {
   }
 
   void _onElectricStimulatorPressed(BuildContext context) {
-    // TODO: Navigate to Electric Stimulator treatment flow
-    debugPrint('Electric Stimulator treatment selected');
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Electric Stimulator flow coming soon!'),
-        duration: Duration(seconds: 2),
-      ),
-    );
+    context.push('/electric-stimulator-guide');
   }
 
   @override

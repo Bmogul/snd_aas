@@ -3,10 +3,7 @@ import 'package:snd_aas/colors.dart';
 
 /// Final ready step
 class ReadyStep extends StatelessWidget {
-  const ReadyStep({
-    Key? key,
-    required this.onComplete,
-  }) : super(key: key);
+  const ReadyStep({Key? key, required this.onComplete}) : super(key: key);
 
   final VoidCallback onComplete;
 
@@ -70,6 +67,28 @@ class ReadyStep extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 48),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: onComplete,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: kSNDPigmentGreen,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 18),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 4,
+              ),
+              icon: const Icon(Icons.arrow_forward, size: 24),
+              label: const Text(
+                'Enter the App',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 12),
           // Features summary
           Container(
             padding: const EdgeInsets.all(20),
@@ -114,37 +133,20 @@ class ReadyStep extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 48),
+
           // Get started button
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              onPressed: onComplete,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: kSNDPigmentGreen,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 18),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                elevation: 4,
-              ),
-              icon: const Icon(Icons.arrow_forward, size: 24),
-              label: const Text(
-                'Enter the App',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );
   }
 
-  Widget _buildFeature(BuildContext context, IconData? icon, String title, String subtitle, {String? imagePath}) {
+  Widget _buildFeature(
+    BuildContext context,
+    IconData? icon,
+    String title,
+    String subtitle, {
+    String? imagePath,
+  }) {
     final theme = Theme.of(context);
     return Row(
       children: [
@@ -161,11 +163,7 @@ class ReadyStep extends StatelessWidget {
                   height: 36,
                   fit: BoxFit.contain,
                 )
-              : Icon(
-                  icon,
-                  color: kSNDJade,
-                  size: 28,
-                ),
+              : Icon(icon, color: kSNDJade, size: 28),
         ),
         const SizedBox(width: 16),
         Expanded(

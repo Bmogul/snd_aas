@@ -428,8 +428,8 @@ class _NotificationsContentState extends State<NotificationsContent>
                   child: imagePath != null
                       ? Image.asset(
                           imagePath,
-                          width: 30,
-                          height: 30,
+                          width: 36,
+                          height: 36,
                           fit: BoxFit.contain,
                         )
                       : Icon(

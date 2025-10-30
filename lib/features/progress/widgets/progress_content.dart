@@ -336,14 +336,14 @@ class _ProgressContentState extends State<ProgressContent> {
                   child: session.treatmentType == 'Gua Sha'
                       ? Image.asset(
                           'assets/gua_sha.png',
-                          width: 24,
-                          height: 24,
+                          width: 30,
+                          height: 30,
                           fit: BoxFit.contain,
                         )
                       : Image.asset(
                           'assets/es.png',
-                          width: 24,
-                          height: 24,
+                          width: 30,
+                          height: 30,
                           fit: BoxFit.contain,
                         ),
                 ),

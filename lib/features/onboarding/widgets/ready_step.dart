@@ -157,8 +157,8 @@ class ReadyStep extends StatelessWidget {
           child: imagePath != null
               ? Image.asset(
                   imagePath,
-                  width: 28,
-                  height: 28,
+                  width: 36,
+                  height: 36,
                   fit: BoxFit.contain,
                 )
               : Icon(

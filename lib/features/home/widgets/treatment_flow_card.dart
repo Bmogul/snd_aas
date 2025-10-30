@@ -64,8 +64,8 @@ class TreatmentFlowCard extends StatelessWidget {
                 child: imagePath != null
                     ? Image.asset(
                         imagePath!,
-                        width: 40,
-                        height: 40,
+                        width: 50,
+                        height: 50,
                         fit: BoxFit.contain,
                       )
                     : Icon(

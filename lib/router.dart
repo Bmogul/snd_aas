@@ -11,6 +11,7 @@ import 'package:snd_aas/features/settings/pages/settings_page.dart';
 import 'package:snd_aas/features/profile/pages/profile_page.dart';
 import 'package:snd_aas/features/progress/pages/photo_comparison_page.dart';
 import 'package:snd_aas/features/introduction/pages/introduction_page.dart';
+import 'package:snd_aas/features/gua_sha/pages/gua_sha_guide_page.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/',
@@ -184,6 +185,20 @@ final GoRouter router = GoRouter(
       pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
         child: const IntroductionPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/gua-sha-guide',
+      name: 'gua-sha-guide',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const GuaShaGuidePage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(
             opacity: animation,

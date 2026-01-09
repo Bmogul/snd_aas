@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:snd_aas/colors.dart';
 
 /// Camera access permission step
-class CameraAccessStep extends StatelessWidget {
+class CameraAccessStep extends StatefulWidget {
   const CameraAccessStep({
     Key? key,
     required this.onNext,
@@ -10,10 +11,72 @@ class CameraAccessStep extends StatelessWidget {
 
   final VoidCallback onNext;
 
+  @override
+  State<CameraAccessStep> createState() => _CameraAccessStepState();
+}
+
+class _CameraAccessStepState extends State<CameraAccessStep> {
+  bool _isRequesting = false;
+
   Future<void> _requestCameraPermission() async {
-    // TODO: Implement actual camera permission request
-    // For now, just simulate a delay
-    await Future.delayed(const Duration(milliseconds: 500));
+    setState(() {
+      _isRequesting = true;
+    });
+
+    try {
+      // Request camera permission
+      final cameraStatus = await Permission.camera.request();
+
+      // Request photos permission (for accessing gallery and saving photos)
+      final photosStatus = await Permission.photos.request();
+
+      if (cameraStatus.isGranted && photosStatus.isGranted) {
+        // Both permissions granted, proceed
+        widget.onNext();
+      } else if (cameraStatus.isPermanentlyDenied || photosStatus.isPermanentlyDenied) {
+        // Show dialog to open settings
+        _showPermissionDeniedDialog(permanently: true);
+      } else {
+        // Permissions denied but can be requested again
+        _showPermissionDeniedDialog(permanently: false);
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isRequesting = false;
+        });
+      }
+    }
+  }
+
+  void _showPermissionDeniedDialog({required bool permanently}) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Camera Access Required'),
+        content: Text(
+          permanently
+              ? 'Camera and photo access are required to track your treatment progress. Please enable them in Settings.'
+              : 'Camera and photo access are needed to capture and view your treatment progress photos.',
+        ),
+        actions: [
+          if (permanently)
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                openAppSettings();
+              },
+              child: const Text('Open Settings'),
+            ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(permanently ? 'Cancel' : 'OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -63,10 +126,7 @@ class CameraAccessStep extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
-              onPressed: () async {
-                await _requestCameraPermission();
-                onNext();
-              },
+              onPressed: _isRequesting ? null : _requestCameraPermission,
               style: ElevatedButton.styleFrom(
                 backgroundColor: kSNDPigmentGreen,
                 foregroundColor: Colors.white,
@@ -75,10 +135,19 @@ class CameraAccessStep extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              icon: const Icon(Icons.check_circle_outline),
-              label: const Text(
-                'Allow Camera Access',
-                style: TextStyle(
+              icon: _isRequesting
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    )
+                  : const Icon(Icons.check_circle_outline),
+              label: Text(
+                _isRequesting ? 'Requesting...' : 'Allow Camera Access',
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),

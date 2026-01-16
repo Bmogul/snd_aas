@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snd_aas/widgets/shared/gradient_background.dart';
 import 'package:snd_aas/features/onboarding/widgets/camera_access_step.dart';
+import 'package:snd_aas/features/onboarding/widgets/gallery_access_step.dart';
 import 'package:snd_aas/features/onboarding/widgets/reminders_step.dart';
 import 'package:snd_aas/features/onboarding/widgets/facial_paralysis_step.dart';
 import 'package:snd_aas/features/onboarding/widgets/first_selfie_step.dart';
@@ -27,7 +28,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   void _nextPage() {
-    if (_currentPage < 4) {
+    if (_currentPage < 5) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
@@ -71,6 +72,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     },
                     children: [
                       CameraAccessStep(onNext: _nextPage),
+                      GalleryAccessStep(onNext: _nextPage, onSkip: _nextPage),
                       RemindersStep(onNext: _nextPage, onSkip: _nextPage),
                       FacialParalysisStep(
                         onAnswer: (hasParalysis) {
@@ -89,7 +91,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
-                      5,
+                      6,
                       (index) => Container(
                         margin: EdgeInsets.symmetric(horizontal: 4),
                         width: index == _currentPage ? 12 : 8,

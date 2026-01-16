@@ -46,7 +46,7 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>We need camera access to capture your treatment progress photos and track your anti-aging journey</string>
+	<string>We need camera access for the treatment overal and to capture your treatment progress photos and track your anti-aging journey</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library to select and view your treatment progress photos</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

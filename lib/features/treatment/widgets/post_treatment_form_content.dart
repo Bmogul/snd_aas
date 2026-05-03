@@ -34,12 +34,25 @@ class _PostTreatmentFormContentState extends State<PostTreatmentFormContent> {
 
   Future<void> _takeSelfie() async {
     try {
+      // TODO: [MILESTONE 1 - Face Detection] Implement face detection validation
+      // - Verify face is detected in frame before capture
+      // - Ensure proper lighting conditions
+      // - Check face alignment and positioning
+      // - Show real-time face detection overlay on camera view
+      // - Guide user to optimal photo angle
+
       final XFile? photo = await _picker.pickImage(
         source: ImageSource.camera,
         preferredCameraDevice: CameraDevice.front,
       );
 
       if (photo != null) {
+        // TODO: [MILESTONE 1 - Face Detection] Post-capture face validation
+        // - Verify captured image contains a valid face
+        // - Extract facial landmarks for progress tracking
+        // - Store facial metrics for comparison
+        // - Reject photos that don't meet quality standards
+
         setState(() {
           _selectedImage = File(photo.path);
         });
@@ -132,7 +145,18 @@ class _PostTreatmentFormContentState extends State<PostTreatmentFormContent> {
   }
 
   void _submitForm() {
-    // TODO: Save treatment session with photo and notes
+    // TODO: [MILESTONE 3 - Backend Infrastructure] Save treatment session to cloud
+    // - Upload photo to cloud storage (Firebase Storage / AWS S3)
+    // - Save treatment session data to database
+    // - Include: treatmentType, date, time, notes, photoUrl, userId
+    // - Store facial metrics if available
+    // - Sync across devices
+
+    // TODO: [MILESTONE 4 - Photo Gallery] Add to photo gallery
+    // - Organize photos by date and treatment type
+    // - Generate thumbnails for gallery view
+    // - Enable side-by-side comparison with previous photos
+
     final hasPhoto = _selectedImage != null;
     final hasNotes = _notesController.text.isNotEmpty;
 

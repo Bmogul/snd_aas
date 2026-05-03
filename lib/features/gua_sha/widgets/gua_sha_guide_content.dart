@@ -3,6 +3,15 @@ import 'package:go_router/go_router.dart';
 import 'package:snd_aas/colors.dart';
 
 /// Content widget for the Gua Sha guide page
+///
+/// TODO: [MILESTONE 2 - Treatment Workflows] Implement step-by-step Gua Sha workflow
+/// - Create multi-step guided treatment flow
+/// - Show animated instructions for each facial area
+/// - Include timer for each treatment zone
+/// - Add visual diagrams showing stroke direction and pressure
+/// - Implement progress tracker through treatment steps
+/// - Add pause/resume functionality
+/// - Show treatment completion percentage
 class GuaShaGuideContent extends StatelessWidget {
   const GuaShaGuideContent({Key? key}) : super(key: key);
 

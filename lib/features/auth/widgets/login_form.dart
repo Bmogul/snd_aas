@@ -34,6 +34,15 @@ class _LoginFormState extends State<LoginForm> {
 
   void _handleEmailLogin() {
     if (_formKey.currentState!.validate()) {
+      // TODO: [MILESTONE 3 - Backend Infrastructure] Implement email/password authentication
+      // - Integrate Firebase Auth or custom backend
+      // - Validate credentials against backend
+      // - Handle authentication errors (wrong password, user not found)
+      // - Store auth token securely
+      // - Set up session management
+      // - Implement password reset flow
+      // - Add email verification
+
       debugPrint('Email: ${_emailController.text}');
       debugPrint('Password: ${_passwordController.text}');
       widget.onLoginPressed();
@@ -69,7 +78,7 @@ class _LoginFormState extends State<LoginForm> {
               ),
               SizedBox(height: 10),
               ResponsiveButton(
-                onPressed: widget.onRegisterPressed,
+                onPressed: widget.onLoginPressed,
                 label: "Continue with Apple",
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,

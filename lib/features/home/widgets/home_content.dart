@@ -28,6 +28,13 @@ class _HomeContentState extends State<HomeContent> with SingleTickerProviderStat
   @override
   void initState() {
     super.initState();
+    // TODO: [MILESTONE 3 - Backend Infrastructure] Load user data from cloud
+    // - Fetch user profile data (name, email, photo)
+    // - Load treatment history and statistics
+    // - Sync latest progress photos
+    // - Check for pending reminders/notifications
+    // - Update last login timestamp
+
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 1200),
       vsync: this,

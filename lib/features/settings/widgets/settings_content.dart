@@ -213,7 +213,7 @@ class _SettingsContentState extends State<SettingsContent> {
                 theme,
                 'Language',
                 _language,
-                ['English', 'Spanish', 'French', 'German'],
+                ['English', 'Spanish'],
                 (value) => setState(() => _language = value),
               ),
               _buildDivider(),

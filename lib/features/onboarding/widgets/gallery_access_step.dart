@@ -2,40 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:snd_aas/colors.dart';
 
-/// Camera access permission step
-class CameraAccessStep extends StatefulWidget {
-  const CameraAccessStep({
+/// Gallery access permission step
+class GalleryAccessStep extends StatefulWidget {
+  const GalleryAccessStep({
     Key? key,
     required this.onNext,
+    required this.onSkip,
   }) : super(key: key);
 
   final VoidCallback onNext;
+  final VoidCallback onSkip;
 
   @override
-  State<CameraAccessStep> createState() => _CameraAccessStepState();
+  State<GalleryAccessStep> createState() => _GalleryAccessStepState();
 }
 
-class _CameraAccessStepState extends State<CameraAccessStep> {
+class _GalleryAccessStepState extends State<GalleryAccessStep> {
   bool _isRequesting = false;
 
-  Future<void> _requestCameraPermission() async {
+  Future<void> _requestGalleryPermission() async {
     setState(() {
       _isRequesting = true;
     });
 
     try {
-      // Request camera permission only
-      final cameraStatus = await Permission.camera.request();
+      // Request photos/gallery permission
+      final photosStatus = await Permission.photos.request();
 
-      if (cameraStatus.isGranted) {
+      if (photosStatus.isGranted) {
         // Permission granted, proceed
         widget.onNext();
-      } else if (cameraStatus.isPermanentlyDenied) {
+      } else if (photosStatus.isPermanentlyDenied) {
         // Show dialog to open settings
         _showPermissionDeniedDialog(permanently: true);
       } else {
         // Permission denied but can be requested again
-        _showPermissionDeniedDialog(permanently: false);
+        // Gallery access is optional, so we can proceed
+        widget.onNext();
       }
     } finally {
       if (mounted) {
@@ -50,11 +53,11 @@ class _CameraAccessStepState extends State<CameraAccessStep> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Camera Access Required'),
+        title: const Text('Gallery Access'),
         content: Text(
           permanently
-              ? 'Camera access is required for the treatment overlay and to capture your treatment progress photos. Please enable it in Settings.'
-              : 'Camera access is needed for treatment overlay and to take treatment progress photos.',
+              ? 'To select photos from your gallery, please enable photo access in Settings.'
+              : 'Gallery access allows you to select and view your treatment photos.',
         ),
         actions: [
           if (permanently)
@@ -68,8 +71,9 @@ class _CameraAccessStepState extends State<CameraAccessStep> {
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
+              widget.onNext();
             },
-            child: Text(permanently ? 'Cancel' : 'OK'),
+            child: const Text('Continue'),
           ),
         ],
       ),
@@ -94,7 +98,7 @@ class _CameraAccessStepState extends State<CameraAccessStep> {
               shape: BoxShape.circle,
             ),
             child: Icon(
-              Icons.camera_alt,
+              Icons.photo_library,
               size: 80,
               color: kSNDPigmentGreen,
             ),
@@ -102,7 +106,7 @@ class _CameraAccessStepState extends State<CameraAccessStep> {
           const SizedBox(height: 32),
           // Title
           Text(
-            'Camera Access',
+            'Gallery Access',
             style: theme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: theme.colorScheme.primary,
@@ -112,7 +116,7 @@ class _CameraAccessStepState extends State<CameraAccessStep> {
           const SizedBox(height: 16),
           // Description
           Text(
-            'We need access to your camera to capture treatment progress photos. This helps you track improvements over time.',
+            'Access your photo gallery to view, select, and compare your treatment progress photos over time.',
             style: theme.textTheme.bodyLarge?.copyWith(
               color: theme.colorScheme.onSurface.withOpacity(0.7),
             ),
@@ -123,7 +127,7 @@ class _CameraAccessStepState extends State<CameraAccessStep> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
-              onPressed: _isRequesting ? null : _requestCameraPermission,
+              onPressed: _isRequesting ? null : _requestGalleryPermission,
               style: ElevatedButton.styleFrom(
                 backgroundColor: kSNDPigmentGreen,
                 foregroundColor: Colors.white,
@@ -141,13 +145,24 @@ class _CameraAccessStepState extends State<CameraAccessStep> {
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                       ),
                     )
-                  : const Icon(Icons.check_circle_outline),
+                  : const Icon(Icons.photo_library),
               label: Text(
-                _isRequesting ? 'Requesting...' : 'Allow Camera Access',
+                _isRequesting ? 'Requesting...' : 'Allow Gallery Access',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          // Skip button
+          TextButton(
+            onPressed: _isRequesting ? null : widget.onSkip,
+            child: Text(
+              'Skip for now',
+              style: TextStyle(
+                color: theme.colorScheme.onSurface.withOpacity(0.6),
               ),
             ),
           ),
